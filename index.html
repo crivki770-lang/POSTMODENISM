@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מעיצוב משרת לעיצוב מורד</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,700;0,900;1,900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+:root {
+  --black: #0d0d0d;
+  --white: #f7f4ee;
+  --grid: #e8e4db;
+  --yellow: #FFE234;
+  --red: #FF2D00;
+  --blue: #1A3FFF;
+  --green: #00C060;
+  --pink: #FF45CC;
+  --teal: #00B8C8;
+  --gray: #888;
+  --border: 3px solid var(--black);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--white);
+  font-family: 'Rubik', sans-serif;
+  color: var(--black);
+  overflow-x: hidden;
+}
+
+/* ─── HERO ─── */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  border-bottom: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left {
+  background: var(--black);
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Modernist grid lines on left */
+.hero-left::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--gray) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gray) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.08;
+}
+
+.hero-left-top { position: relative; }
+.hero-subtitle {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 40px;
+}
+
+.hero-modern-title {
+  font-size: clamp(48px, 6vw, 90px);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.0;
+  letter-spacing: -3px;
+  position: relative;
+}
+.hero-modern-title em {
+  display: block;
+  font-style: italic;
+  font-weight: 900;
+  color: var(--yellow);
+  letter-spacing: -4px;
+}
+
+.hero-left-bottom { position: relative; }
+.hero-rule {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--gray);
+  border-top: 1px solid #444;
+  padding-top: 16px;
+  line-height: 1.8;
+}
+
+/* Right side — postmodern chaos erupting */
+.hero-right {
+  background: var(--white);
+  padding: 60px 50px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Memphis shapes bleeding in */
+.shape-circle {
+  position: absolute;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  border: 6px solid var(--pink);
+  top: -40px; left: -60px;
+  opacity: 0.5;
+}
+.shape-rect {
+  position: absolute;
+  width: 60px; height: 200px;
+  background: var(--yellow);
+  bottom: 60px; right: -20px;
+  transform: rotate(15deg);
+  opacity: 0.6;
+}
+.shape-zigzag {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 30px;
+  background: repeating-linear-gradient(90deg, var(--red) 0, var(--red) 20px, transparent 20px, transparent 40px);
+  opacity: 0.3;
+}
+
+.hero-post-title {
+  font-size: clamp(40px, 5vw, 70px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -2px;
+  position: relative;
+  z-index: 2;
+}
+.hero-post-title .word-1 { color: var(--red); display: block; transform: rotate(-2deg); }
+.hero-post-title .word-2 { color: var(--blue); display: block; transform: rotate(1deg); margin-top: 8px; }
+.hero-post-title .word-3 {
+  color: var(--black);
+  display: block;
+  transform: rotate(-1deg);
+  margin-top: 8px;
+  -webkit-text-stroke: 2px var(--black);
+  color: transparent;
+}
+
+.hero-post-desc {
+  margin-top: 32px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #444;
+  max-width: 320px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-cta {
+  margin-top: 32px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+.cta-btn {
+  padding: 12px 24px;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  border: var(--border);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.cta-primary { background: var(--black); color: var(--white); }
+.cta-primary:hover { background: var(--blue); border-color: var(--blue); }
+.cta-secondary { background: transparent; color: var(--black); }
+.cta-secondary:hover { background: var(--yellow); }
+
+/* Divider "crack" — modernist grid breaking */
+.hero-divider {
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 4px;
+  background: var(--black);
+  transform: translateX(-50%);
+  z-index: 10;
+}
+.hero-divider::after {
+  content: '';
+  position: absolute;
+  top: 55%;
+  left: -20px;
+  width: 48px;
+  height: 4px;
+  background: var(--red);
+  transform: rotate(30deg);
+}
+
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-divider { display: none; }
+  .hero-left, .hero-right { padding: 50px 30px; min-height: 50vh; }
+}
+
+/* ─── NAV ─── */
+.nav {
+  display: flex;
+  background: var(--white);
+  border-bottom: var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  overflow-x: auto;
+}
+.nav-btn {
+  flex: 1;
+  min-width: 100px;
+  padding: 18px 20px;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  border: none;
+  border-right: var(--border);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.nav-btn:last-child { border-right: none; }
+.nav-btn:hover { background: var(--yellow); }
+.nav-btn.active { background: var(--black); color: var(--white); }
+.nav-indicator {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.4;
+}
+.nav-btn.active .nav-indicator { background: var(--yellow); opacity: 1; }
+
+/* ─── SECTIONS ─── */
+.section { display: none; }
+.section.active { display: block; }
+
+/* ─── THEORY ─── */
+.theory-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: var(--border);
+}
+@media (max-width: 700px) { .theory-split { grid-template-columns: 1fr; } }
+
+.theory-half {
+  padding: 56px 48px;
+  border-right: var(--border);
+  position: relative;
+}
+.theory-half:last-child { border-right: none; }
+.theory-half.modern-side {
+  background: var(--white);
+}
+.theory-half.post-side {
+  background: var(--black);
+  color: var(--white);
+  overflow: hidden;
+}
+/* Memphis dots on post side */
+.theory-half.post-side::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(var(--yellow) 2px, transparent 2px);
+  background-size: 28px 28px;
+  opacity: 0.08;
+}
+
+.side-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.side-label::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.3; }
+
+.theory-half h2 {
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 28px;
+  letter-spacing: -1px;
+}
+.theory-half.post-side h2 { color: var(--yellow); }
+
+.principle-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.principle-item {
+  padding: 18px 20px;
+  border: 2px solid var(--black);
+  background: var(--white);
+  position: relative;
+}
+.principle-item::before {
+  content: attr(data-num);
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  position: absolute;
+  top: -1px; right: -1px;
+  background: var(--black);
+  color: var(--white);
+  padding: 2px 8px;
+}
+.principle-item strong { display: block; font-size: 14px; margin-bottom: 4px; }
+.principle-item span { font-size: 13px; color: #555; line-height: 1.5; }
+
+.principle-item.post {
+  border-color: var(--yellow);
+  background: transparent;
+}
+.principle-item.post::before { background: var(--yellow); color: var(--black); }
+.principle-item.post strong { color: var(--yellow); }
+.principle-item.post span { color: #aaa; }
+
+/* Critique band */
+.critique-band {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: var(--border);
+}
+@media (max-width: 700px) { .critique-band { grid-template-columns: 1fr; } }
+.critique-card {
+  padding: 40px 36px;
+  border-right: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.critique-card:last-child { border-right: none; }
+.critique-card:nth-child(1) { background: var(--red); color: white; }
+.critique-card:nth-child(2) { background: var(--yellow); }
+.critique-card:nth-child(3) { background: var(--blue); color: white; }
+.critique-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 60px;
+  font-weight: 700;
+  opacity: 0.15;
+  position: absolute;
+  top: 16px; left: 16px;
+  line-height: 1;
+}
+.critique-card h3 { font-size: 18px; font-weight: 900; margin-bottom: 12px; position: relative; }
+.critique-card p { font-size: 13px; line-height: 1.7; position: relative; opacity: 0.9; }
+
+/* Concepts */
+.concepts-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: var(--border);
+}
+@media (max-width: 700px) { .concepts-row { grid-template-columns: 1fr 1fr; } }
+.concept-cell {
+  padding: 32px 28px;
+  border-right: var(--border);
+}
+.concept-cell:last-child { border-right: none; }
+.concept-tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 12px;
+  display: block;
+}
+.concept-term { font-size: 18px; font-weight: 900; margin-bottom: 8px; line-height: 1.2; }
+.concept-def { font-size: 12px; line-height: 1.7; color: #555; }
+
+/* ─── WORKS ─── */
+.works-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 40px;
+  border-bottom: var(--border);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.works-top h2 { font-size: 22px; font-weight: 900; }
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 8px 18px;
+  border: 2px solid var(--black);
+  background: transparent;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.filter-btn:hover, .filter-btn.active { background: var(--black); color: var(--white); }
+
+.works-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.work-card {
+  border-right: var(--border);
+  border-bottom: var(--border);
+  cursor: pointer;
+  transition: all 0.12s;
+  position: relative;
+  overflow: hidden;
+}
+.work-card:hover { transform: translate(-3px,-3px); box-shadow: 3px 3px 0 var(--black); z-index: 5; }
+
+.work-thumb {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  position: relative;
+}
+.work-thumb-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  backdrop-filter: blur(4px);
+}
+.work-info { padding: 18px 20px; }
+.work-year { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--gray); margin-bottom: 5px; }
+.work-name { font-size: 14px; font-weight: 700; line-height: 1.3; margin-bottom: 4px; }
+.work-designer { font-size: 12px; color: #666; }
+.work-arrow {
+  position: absolute;
+  bottom: 14px; left: 16px;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.work-card:hover .work-arrow { opacity: 1; }
+
+/* ─── MODAL ─── */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 9000;
+  padding: 24px;
+  overflow-y: auto;
+  align-items: flex-start;
+  justify-content: center;
+}
+.overlay.open { display: flex; }
+
+.modal {
+  background: var(--white);
+  width: 100%;
+  max-width: 680px;
+  margin-top: 32px;
+  border: var(--border);
+  animation: slideUp 0.2s ease;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+.modal-banner {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 88px;
+  position: relative;
+  border-bottom: var(--border);
+}
+.modal-cat-badge {
+  position: absolute;
+  top: 16px; right: 16px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 2px solid;
+}
+.modal-close {
+  position: absolute;
+  top: 16px; left: 16px;
+  width: 36px; height: 36px;
+  border: 2px solid var(--black);
+  background: var(--white);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.modal-close:hover { background: var(--red); color: white; border-color: var(--red); }
+.modal-content { padding: 36px; }
+.modal-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.meta-box { padding: 14px 16px; border: 2px solid var(--black); }
+.meta-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-bottom: 5px; }
+.meta-value { font-size: 15px; font-weight: 700; }
+.modal-desc { font-size: 15px; line-height: 1.8; margin-bottom: 24px; color: #333; }
+.modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.modal-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border: 2px solid var(--black);
+  letter-spacing: 0.5px;
+}
+.modal-q {
+  padding: 24px;
+  border: 2px solid var(--black);
+  background: var(--yellow);
+}
+.modal-q-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modal-q-label::before { content: '?'; width: 22px; height: 22px; background: var(--black); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 13px; }
+.modal-q p { font-size: 15px; line-height: 1.6; font-weight: 700; }
+
+/* ─── COMPARE ─── */
+.compare-section { padding: 40px; border-bottom: var(--border); }
+.compare-section h3 { font-size: 20px; font-weight: 900; margin-bottom: 24px; }
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th, .compare-table td {
+  padding: 14px 18px;
+  text-align: right;
+  border: 2px solid var(--black);
+  font-size: 14px;
+  vertical-align: top;
+}
+.compare-table th { background: var(--black); color: var(--white); font-weight: 700; }
+.compare-table tr:nth-child(even) td { background: var(--grid); }
+.compare-table td:first-child { font-weight: 700; background: var(--grid); }
+
+/* ─── QUIZ ─── */
+.quiz-wrap { max-width: 680px; margin: 0 auto; padding: 48px 24px; }
+
+.quiz-cover {
+  border: var(--border);
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+.quiz-cover-top {
+  background: var(--black);
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.quiz-cover-top::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--yellow) 1px, transparent 1px),
+    linear-gradient(90deg, var(--yellow) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.04;
+}
+.quiz-cover-top h2 { font-size: 36px; font-weight: 900; color: var(--white); position: relative; }
+.quiz-cover-top p { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--gray); margin-top: 10px; position: relative; }
+.quiz-cover-bottom {
+  padding: 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-top: var(--border);
+}
+.quiz-stats { display: flex; gap: 32px; }
+.quiz-stat { text-align: center; }
+.quiz-stat-n { font-size: 28px; font-weight: 900; }
+.quiz-stat-l { font-size: 10px; color: var(--gray); font-family: 'Space Mono', monospace; }
+.start-quiz-btn {
+  padding: 14px 36px;
+  background: var(--black);
+  color: var(--white);
+  border: var(--border);
+  font-family: 'Rubik', sans-serif;
+  font-weight: 900;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.1s;
+  letter-spacing: 0.5px;
+}
+.start-quiz-btn:hover { background: var(--blue); border-color: var(--blue); }
+
+/* Progress */
+.q-progress { margin-bottom: 24px; }
+.q-progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.q-progress-top span { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gray); }
+.q-progress-bar { height: 6px; background: var(--grid); border: 2px solid var(--black); overflow: hidden; }
+.q-progress-fill { height: 100%; background: var(--black); transition: width 0.4s ease; }
+
+.q-card {
+  border: var(--border);
+  overflow: hidden;
+  display: none;
+  animation: cardIn 0.25s ease;
+}
+.q-card.show { display: block; }
+@keyframes cardIn { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+
+.q-head {
+  background: var(--black);
+  color: var(--white);
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.q-head-num { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gray); }
+.q-head-pts { font-size: 11px; color: var(--yellow); font-weight: 700; }
+
+.q-body { padding: 28px 24px; }
+.q-text { font-size: 17px; font-weight: 700; line-height: 1.5; margin-bottom: 24px; }
+.q-options { display: flex; flex-direction: column; gap: 10px; }
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 2px solid var(--black);
+  background: transparent;
+  font-family: 'Rubik', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: right;
+  transition: all 0.1s;
+  width: 100%;
+}
+.opt:hover:not(:disabled) { background: var(--yellow); }
+.opt.correct { background: var(--green) !important; color: white; border-color: var(--green); }
+.opt.wrong   { background: var(--red)   !important; color: white; border-color: var(--red); }
+.opt:disabled { cursor: default; }
+.opt-letter {
+  width: 30px; height: 30px;
+  border: 2px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.q-feedback {
+  display: none;
+  padding: 16px 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-top: 2px solid var(--black);
+  font-weight: 700;
+}
+.q-feedback.show { display: block; }
+.q-feedback.ok { background: #d4f7e0; }
+.q-feedback.bad { background: #ffe5e5; }
+
+.q-next {
+  display: none;
+  margin: 16px 24px 24px;
+  padding: 12px 28px;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.q-next.show { display: block; }
+.q-next:hover { background: var(--blue); }
+
+/* Result */
+.result {
+  display: none;
+  border: var(--border);
+  overflow: hidden;
+}
+.result.show { display: block; }
+.result-top {
+  background: var(--black);
+  padding: 60px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.result-top::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-conic-gradient(var(--yellow) 0%, var(--yellow) 25%, transparent 0%, transparent 50%);
+  background-size: 40px 40px;
+  opacity: 0.03;
+}
+.result-pct {
+  font-size: 96px;
+  font-weight: 900;
+  color: var(--yellow);
+  line-height: 1;
+  position: relative;
+}
+.result-pct span { font-size: 40px; }
+.result-label { font-size: 20px; color: var(--white); font-weight: 700; margin-top: 12px; position: relative; }
+.result-sub { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gray); margin-top: 8px; position: relative; }
+.result-bottom { padding: 40px; }
+.result-msg { font-size: 16px; line-height: 1.8; margin-bottom: 28px; }
+.result-retry {
+  padding: 14px 40px;
+  background: var(--black);
+  color: var(--white);
+  border: var(--border);
+  font-family: 'Rubik', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.result-retry:hover { background: var(--red); border-color: var(--red); }
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 32px 40px;
+  border-top: var(--border);
+  background: var(--black);
+  color: var(--gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+footer span { font-family: 'Space Mono', monospace; font-size: 11px; }
+.footer-dots { display: flex; gap: 8px; }
+.footer-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+/* ─── OPEN QUESTIONS ─── */
+.oq-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--blue); color: white;
+  font-size: 9px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; padding: 4px 10px;
+  margin-bottom: 6px;
+}
+.oq-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 16px;
+  border: 2px solid var(--black);
+  font-family: 'Rubik', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  resize: vertical;
+  background: var(--white);
+  margin-top: 16px;
+  direction: rtl;
+}
+.oq-textarea:focus { outline: none; border-color: var(--blue); box-shadow: 3px 3px 0 var(--blue); }
+.oq-submit {
+  margin-top: 12px;
+  padding: 12px 28px;
+  background: var(--blue);
+  color: white;
+  border: 2px solid var(--blue);
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.1s;
+  display: flex; align-items: center; gap: 8px;
+}
+.oq-submit:hover { background: var(--black); border-color: var(--black); }
+.oq-submit:disabled { opacity: 0.5; cursor: default; }
+
+.ai-loading {
+  display: none;
+  padding: 20px;
+  border-top: 2px solid var(--black);
+  font-size: 13px;
+  font-family: 'Space Mono', monospace;
+  color: var(--gray);
+  align-items: center; gap: 12px;
+}
+.ai-loading.show { display: flex; }
+.ai-spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--grid);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.ai-result {
+  display: none;
+  border-top: 2px solid var(--black);
+}
+.ai-result.show { display: block; }
+.ai-score-bar {
+  display: flex; align-items: center;
+  padding: 16px 20px;
+  gap: 16px;
+  border-bottom: 2px solid var(--black);
+}
+.ai-score-num {
+  font-size: 36px; font-weight: 900;
+  font-family: 'Space Mono', monospace;
+  line-height: 1;
+}
+.ai-score-label { font-size: 12px; color: var(--gray); }
+.ai-score-dots { display: flex; gap: 4px; flex-wrap: wrap; }
+.ai-score-dot { width: 14px; height: 14px; border: 2px solid var(--black); }
+.ai-score-dot.filled { background: var(--black); }
+.ai-feedback-text {
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.ai-feedback-text strong { display: block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; color: var(--gray); }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--white); }
+::-webkit-scrollbar-thumb { background: var(--black); }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+  <div class="hero-divider"></div>
+
+  <div class="hero-left">
+    <div class="hero-left-top">
+      <div class="hero-subtitle">modernism · 1945–1965</div>
+      <div class="hero-modern-title">
+        Less<br>is<br><em>More.</em>
+      </div>
+    </div>
+    <div class="hero-left-bottom">
+      <div class="hero-rule">
+        פונקציונליזם | רציונליות | יעילות<br>
+        "צורה עוקבת אחר תפקיד" — ללא קישוט
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="shape-circle"></div>
+    <div class="shape-rect"></div>
+    <div class="shape-zigzag"></div>
+    <div class="hero-post-title">
+      <span class="word-1">Less</span>
+      <span class="word-2">is</span>
+      <span class="word-3">Bore.</span>
+    </div>
+    <p class="hero-post-desc">
+      פוסט-מודרניזם | 1966–1990<br>
+      מעיצוב <strong>משרת</strong> לעיצוב <strong>מורד</strong> —<br>
+      יחידת לימוד לבגרות באמנות שימושית, כיתה י"א
+    </p>
+    <div class="hero-cta">
+      <button class="cta-btn cta-primary" onclick="showSection('theory', this)">→ התחל ללמוד</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ NAV ══════════ -->
+<nav class="nav">
+  <button class="nav-btn" onclick="showSection('theory',this)">
+    <span class="nav-indicator"></span> תיאוריה
+  </button>
+  <button class="nav-btn" onclick="showSection('works',this)">
+    <span class="nav-indicator"></span> יצירות
+  </button>
+  <button class="nav-btn" onclick="showSection('compare',this)">
+    <span class="nav-indicator"></span> השוואה
+  </button>
+  <button class="nav-btn" id="quizNavBtn" onclick="tryOpenQuiz(this)" style="opacity:0.45; cursor:not-allowed;">
+    <span class="nav-indicator"></span> בחינה 🔒
+  </button>
+</nav>
+
+<!-- ══════════ THEORY ══════════ -->
+<div id="theory" class="section">
+
+  <div class="theory-split">
+    <div class="theory-half modern-side">
+      <div class="side-label">מודרניזם · 1945–1965</div>
+      <h2>הכלל<br>הגדול</h2>
+      <ul class="principle-list">
+        <li class="principle-item" data-num="01">
+          <strong>פונקציונליזם</strong>
+          <span>צורה נקבעת לפי תפקיד — ולא לפי קישוט או אסתטיקה.</span>
+        </li>
+        <li class="principle-item" data-num="02">
+          <strong>אוניברסליות</strong>
+          <span>עיצוב טוב נכון לכל אדם, בכל מקום, בכל זמן.</span>
+        </li>
+        <li class="principle-item" data-num="03">
+          <strong>פשטות ונקיון</strong>
+          <span>"Less is More" — ללא קישוטים מיותרים, ללא רעש חזותי.</span>
+        </li>
+        <li class="principle-item" data-num="04">
+          <strong>רציונליות</strong>
+          <span>כל החלטת עיצוב מבוססת על היגיון ויעילות.</span>
+        </li>
+      </ul>
+    </div>
+    <div class="theory-half post-side">
+      <div class="side-label" style="color:#555;">פוסט-מודרניזם · 1966–1990</div>
+      <h2>המרד<br>הגדול</h2>
+      <ul class="principle-list">
+        <li class="principle-item post" data-num="01">
+          <strong>Less is Bore</strong>
+          <span>פחות זה משעמם — רוברט ונטורי קורא תיגר על המודרניזם.</span>
+        </li>
+        <li class="principle-item post" data-num="02">
+          <strong>אינדיבידואליזם</strong>
+          <span>עיצוב פונה לפרט, לא ל"אדם הגנרי". כל אדם שונה.</span>
+        </li>
+        <li class="principle-item post" data-num="03">
+          <strong>הומור ואירוניה</strong>
+          <span>עיצוב שמחייך, שמפתיע, שמאתגר ציפיות קבועות.</span>
+        </li>
+        <li class="principle-item post" data-num="04">
+          <strong>ריבוי וצבע</strong>
+          <span>קישוטיות, שכבות, מורכבות ויזואלית — ה"יותר" של הפוסט.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="critique-band">
+    <div class="critique-card">
+      <div class="critique-num">1</div>
+      <h3>תרבות הצריכה</h3>
+      <p>"התיישנות מתוכננת" — Planned Obsolescence. מוצרים תוכננו לפוג תוקף. החברה הפכה למכונת קנייה וזריקה. מעצבים רדיקליים קראו לזה "חברה חולנית".</p>
+    </div>
+    <div class="critique-card">
+      <div class="critique-num">2</div>
+      <h3>משבר אקולוגי</h3>
+      <p>הפלסטיק — שנחשב "מודרני ועתידני" — התגלה ככלי מזהם. משברי האנרגיה של שנות ה-70 הראו שמשאבי כדור הארץ מוגבלים.</p>
+    </div>
+    <div class="critique-card">
+      <div class="critique-num">3</div>
+      <h3>חוסר רגש</h3>
+      <p>האדריכלות המודרנית עיצבה לאדם גנרי ושכחה את הרגש הייחודי. האדם כסובייקט — עם צרכים, זיכרונות, תרבות — לא היה חלק מהמשוואה.</p>
+    </div>
+  </div>
+
+  <div class="concepts-row">
+    <div class="concept-cell">
+      <span class="concept-tag">מושג 1</span>
+      <div class="concept-term">פונקציונליזם</div>
+      <div class="concept-def">הצורה של חפץ נקבעת לפי תפקידו — עיקרון מרכזי של המודרניזם.</div>
+    </div>
+    <div class="concept-cell">
+      <span class="concept-tag">מושג 2</span>
+      <div class="concept-term">דה-קונסטרוקטיביזם</div>
+      <div class="concept-def">פירוק מכוון של הצורה האדריכלית — כמו מרכז פומפידו ובית גרי.</div>
+    </div>
+    <div class="concept-cell">
+      <span class="concept-tag">מושג 3</span>
+      <div class="concept-term">גל חדש / גראנג'</div>
+      <div class="concept-def">עיצוב גרפי שבור ודינמי — פונטים מעוותים, שכבות, כאוס מכוון.</div>
+    </div>
+    <div class="concept-cell">
+      <span class="concept-tag">מושג 4</span>
+      <div class="concept-term">Planned Obsolescence</div>
+      <div class="concept-def">אסטרטגיה לייצור מוצרים עם אורך חיים מוגבל לעידוד קנייה חוזרת.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ WORKS ══════════ -->
+<div id="works" class="section">
+  <div class="works-top">
+    <h2>14 יצירות מפתח — לחץ לפרטים</h2>
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="filterWorks('all',this)">הכל</button>
+      <button class="filter-btn" onclick="filterWorks('architecture',this)">🏛 אדריכלות</button>
+      <button class="filter-btn" onclick="filterWorks('product',this)">🪑 מוצר</button>
+      <button class="filter-btn" onclick="filterWorks('graphic',this)">✏ גרפי</button>
+    </div>
+  </div>
+  <div class="works-grid" id="worksGrid"></div>
+</div>
+
+<!-- ══════════ COMPARE ══════════ -->
+<div id="compare" class="section">
+  <div class="compare-section">
+    <h3>טבלת השוואה — מודרניזם לעומת פוסט-מודרניזם</h3>
+    <table class="compare-table">
+      <tr>
+        <th>קריטריון</th>
+        <th>מודרניזם</th>
+        <th>פוסט-מודרניזם</th>
+      </tr>
+      <tr><td>מוטו</td><td>Less is More</td><td>Less is Bore</td></tr>
+      <tr><td>עיקרון בסיסי</td><td>צורה עוקבת אחר פונקציה</td><td>צורה עוקבת אחר רגש</td></tr>
+      <tr><td>קהל יעד</td><td>האדם הגנרי / הכלל</td><td>הפרט / הסובייקט</td></tr>
+      <tr><td>עיצוב</td><td>פשוט, נקי, ללא קישוטים</td><td>צבעוני, שכבות, אירוני</td></tr>
+      <tr><td>חומרים</td><td>פלסטיק "מודרני", נפט</td><td>חומרים כנים, תעשייתיים</td></tr>
+      <tr><td>גישה לאמת</td><td>אמת אחת ואוניברסלית</td><td>ריבוי אמיתות ותרבויות</td></tr>
+      <tr><td>דוגמה בולטת</td><td>בניין משרדים אחיד ושקוף</td><td>בניין פורטלנד עם עיטורים</td></tr>
+    </table>
+  </div>
+  <div class="compare-section">
+    <h3>השוואה בין שתי יצירות ממפיס</h3>
+    <table class="compare-table">
+      <tr>
+        <th>קריטריון</th>
+        <th>⌨ מכונת כתיבה "ולנטיין"</th>
+        <th>📚 מחיצת "קרלטון"</th>
+      </tr>
+      <tr><td>מעצב</td><td>אטורה סוטסאס</td><td>אטורה סוטסאס (ממפיס)</td></tr>
+      <tr><td>שנה</td><td>1969</td><td>1981</td></tr>
+      <tr><td>צבע שלט</td><td>אדום עז</td><td>ריבוי צבעים עם למינט</td></tr>
+      <tr><td>שימושיות</td><td>כן — פונקציונלית לגמרי</td><td>חלקית — דגש על מראה</td></tr>
+      <tr><td>כלל שבור</td><td>עיצוב צריך להיות ניטרלי</td><td>פונקציה קודמת לצורה</td></tr>
+      <tr><td>תחושה</td><td>שמחה, חיוך, כיף</td><td>עצמה חזותית, אמירה</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════ QUIZ ══════════ -->
+<div id="quiz" class="section">
+  <div class="quiz-wrap">
+    <div class="quiz-cover" id="quizCover">
+      <div class="quiz-cover-top">
+        <h2>בחינת סיכום</h2>
+        <p>מעיצוב משרת לעיצוב מורד | 10 שאלות סגורות (5 נק') + 5 שאלות פתוחות AI (10 נק')</p>
+      </div>
+      <div class="quiz-cover-bottom">
+        <div class="quiz-stats">
+          <div class="quiz-stat"><div class="quiz-stat-n">15</div><div class="quiz-stat-l">שאלות</div></div>
+          <div class="quiz-stat"><div class="quiz-stat-n">100</div><div class="quiz-stat-l">נקודות</div></div>
+          <div class="quiz-stat"><div class="quiz-stat-n">5</div><div class="quiz-stat-l">שאלות AI ✨</div></div>
+        </div>
+      </div>
+      <div style="padding: 28px 40px; border-top: var(--border);">
+        <div style="font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gray); margin-bottom:14px;">פרטי תלמיד/ה</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
+          <div>
+            <label style="font-size:11px; font-weight:700; letter-spacing:1px; display:block; margin-bottom:6px;">שם פרטי</label>
+            <input type="text" id="studentFirst" placeholder="למשל: רוית" style="width:100%; padding:12px 14px; border:2px solid var(--black); font-family:'Rubik',sans-serif; font-size:14px; background:var(--white); direction:rtl;">
+          </div>
+          <div>
+            <label style="font-size:11px; font-weight:700; letter-spacing:1px; display:block; margin-bottom:6px;">שם משפחה</label>
+            <input type="text" id="studentLast" placeholder="למשל: כהן" style="width:100%; padding:12px 14px; border:2px solid var(--black); font-family:'Rubik',sans-serif; font-size:14px; background:var(--white); direction:rtl;">
+          </div>
+        </div>
+        <div id="nameError" style="display:none; color:var(--red); font-size:13px; font-weight:700; margin-bottom:12px;">⚠ אנא מלא/י שם פרטי ושם משפחה</div>
+        <button class="start-quiz-btn" onclick="startQuiz()">התחל בחינה ←</button>
+      </div>
+    </div>
+    <div id="quizArea" style="display:none">
+      <div class="q-progress">
+        <div class="q-progress-top">
+          <span id="qProgressText">שאלה 1/15</span>
+          <span id="qScoreText">0 נקודות</span>
+        </div>
+        <div class="q-progress-bar"><div class="q-progress-fill" id="qProgressFill" style="width:10%"></div></div>
+      </div>
+      <div id="qContainer"></div>
+      <div class="result" id="resultCard">
+        <div class="result-top">
+          <div class="result-pct" id="rPct"></div>
+          <div class="result-label" id="rLabel"></div>
+          <div class="result-sub" id="rSub"></div>
+        </div>
+        <div class="result-bottom">
+          <div class="result-msg" id="rMsg"></div>
+          <div style="background:var(--yellow); border:2px solid var(--black); padding:14px 20px; margin-bottom:20px; font-size:13px; line-height:1.6;">
+            💡 <strong>מומלץ להוריד את התשובות</strong> — שמור/י עותק למקרה של תקלה טכנית לפני השליחה למורה.
+          </div>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <button class="result-retry" onclick="downloadPDF()" style="background:var(--black); border-color:var(--black);">⬇ הורד תשובות כ-PDF</button>
+            <button class="result-retry" onclick="sendToTeacher()" style="background:var(--blue); border-color:var(--blue);">✉ שלח למורה</button>
+            <button class="result-retry" onclick="resetQuiz()">נסה שוב 🔄</button>
+          </div>
+          <div id="sendStatus" style="display:none; margin-top:14px; padding:12px 16px; border:2px solid var(--black); font-size:13px; font-weight:700;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL ══════════ -->
+<div class="overlay" id="overlay" onclick="overlayClose(event)">
+  <div class="modal">
+    <div class="modal-banner" id="mBanner">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <span id="mEmoji"></span>
+      <div class="modal-cat-badge" id="mCatBadge"></div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-meta">
+        <div class="meta-box"><div class="meta-label">מעצב</div><div class="meta-value" id="mDesigner"></div></div>
+        <div class="meta-box"><div class="meta-label">שנה</div><div class="meta-value" id="mYear"></div></div>
+      </div>
+      <p class="modal-desc" id="mDesc"></p>
+      <div class="modal-tags" id="mTags"></div>
+      <div class="modal-q">
+        <div class="modal-q-label">שאלה למחשבה</div>
+        <p id="mQ"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <span>יחידת לימוד | אמנות שימושית | כיתה י"א | מעיצוב משרת לעיצוב מורד</span>
+  <div class="footer-dots">
+    <div class="footer-dot" style="background:var(--yellow)"></div>
+    <div class="footer-dot" style="background:var(--red)"></div>
+    <div class="footer-dot" style="background:var(--blue)"></div>
+    <div class="footer-dot" style="background:var(--green)"></div>
+  </div>
+</footer>
+
+<script>
+/*
+ * ═══════════════════════════════════════════════════
+ *  הגדרת EmailJS — 3 צעדים חד-פעמיים:
+ *  1. הירשם בחינם: https://www.emailjs.com
+ *  2. Add Service ← בחר Gmail ← קשר את crivki770@gmail.com
+ *     ← שמור את SERVICE_ID
+ *  3. Email Templates ← Create Template ← הוסף את השדות:
+ *       {{to_email}}, {{student_name}}, {{date}},
+ *       {{score}}, {{answers}}
+ *     ← שמור את TEMPLATE_ID
+ *  4. Account ← Public Key ← שמור את PUBLIC_KEY
+ *  5. החלף למטה את: YOUR_SERVICE_ID / YOUR_TEMPLATE_ID / YOUR_PUBLIC_KEY
+ * ═══════════════════════════════════════════════════
+ */
+// ─── DATA ───
+const works = [
+  { id:1, emoji:'🏠', cat:'architecture', catLabel:'אדריכלות', name:'בית ואנה ונטורי', designer:'רוברט ונטורי', year:'1964', bg:'#FFE234', fg:'#111',
+    desc:'המבנה הפוסט-מודרני הראשון. ונטורי עיצב לאמו בית הנראה כ"ציור של ילד" — גג שבור, מדרגות שלא מובילות לשום מקום, חזית לא-סימטרית. מניפסט אדריכלי מובהק נגד הפונקציונליזם.',
+    tags:['פוסט-מודרניזם','Less is Bore','אנטי-פונקציונלי','ונטורי'],
+    q:'מה ונטורי מנסה לומר בכך שיצר מדרגות שלא מובילות לשום מקום? כיצד זה מאתגר את עקרון הפונקציונליזם?' },
+  { id:2, emoji:'⌨️', cat:'product', catLabel:'עיצוב מוצר', name:'מכונת כתיבה "ולנטיין"', designer:'אטורה סוטסאס', year:'1969', bg:'#FF2D00', fg:'white',
+    desc:'מכונת כתיבה נישאת בצבע אדום עז ועיצוב משחקי. סוטסאס עיצב אותה "כדי להכניס חיוך לעולם המשרדי". היא הפכה לאייקון פוסט-מודרני — מוצר שמביע רגש, לא רק פונקציה.',
+    tags:['הומור','רגש','אדום','ממפיס','Olivetti'],
+    q:'למה בחר סוטסאס בצבע אדום בוהק? מה הוא מנסה לתקשר בבחירה הצבעונית הזו?' },
+  { id:3, emoji:'🏭', cat:'architecture', catLabel:'אדריכלות', name:'מרכז פומפידו', designer:'רוג\'רס, פיאנו ופרנצ\'יני', year:'1971–77', bg:'#1A3FFF', fg:'white',
+    desc:'מבנה ש"הופך את הקרביים החוצה": כל מערכות הבניין — מים, חשמל, מיזוג — חשופות וצבועות בצבעים עזים על החזית. מהלך דה-קונסטרוקטיביסטי מהפכני בלב פריז ההיסטורית.',
+    tags:['דה-קונסטרוקטיביזם','פריז','חשיפה','צבע','מבנה גלוי'],
+    q:'מדוע חשיפת מערכות הבניין החוצה נחשבת "רדיקלית"? מה זה עושה להפרדה בין "פנים" ל"חוץ"?' },
+  { id:4, emoji:'🏚️', cat:'architecture', catLabel:'אדריכלות', name:'בית משפחת גרי', designer:'פרנק גרי', year:'1978', bg:'#111', fg:'#FFE234',
+    desc:'גרי לקח בית שורה רגיל בסנטה מוניקה ועטף אותו בחומרים תעשייתיים גסים: פח גלי, גדרות תיל, לוחות עץ גולמיים. הבית נראה כמו "שיפוץ מתמיד" — ביקורת מכוונת על ערכי הנוחות הבורגנית.',
+    tags:['דה-קונסטרוקטיביזם','פח גלי','ביקורת חברתית','חומרים תעשייתיים'],
+    q:'מדוע בחירה בחומרים "זולים ומכוערים" כמו פח גלי יכולה להיות הצהרה פוסט-מודרנית?' },
+  { id:5, emoji:'🏛️', cat:'architecture', catLabel:'אדריכלות', name:'בניין פורטלנד', designer:'מייקל גרייבס', year:'1982', bg:'#00C060', fg:'#111',
+    desc:'בניין ציבורי המשתמש בעיטורים צבעוניים ובאלמנטים קלאסיים שהושטחו. הניגוד למינימליזם הבטוני של המודרניזם הוא מכוון — "קלאסי אירוני" שמציג עמודים ללא פונקציה מבנית.',
+    tags:['פוסט-מודרניזם','קלאסי-אירוני','עיטורים','גרייבס','ציבורי'],
+    q:'כיצד שימוש בעמודים "שקריים" — שאינם נושאים משקל — מבטא את הפילוסופיה הפוסט-מודרנית?' },
+  { id:6, emoji:'🪑', cat:'product', catLabel:'עיצוב מוצר', name:'השום דבר ממשיך לא-לקרות', designer:'הוואד מייסטר', year:'1981', bg:'#FF45CC', fg:'#111',
+    desc:'כיסא פוסט-מודרני שמשמש מטפורה לעולם החומר. שמו הפרובוקטיבי מזמין את הצופה לתהות על מהות החפץ מעבר לשימוש שלו — האם כיסא הוא רק כיסא?',
+    tags:['מטפורה','שם כחלק מהעיצוב','פרובוקציה','פוסט-מודרניזם'],
+    q:'מה תפקידו של שם הכיסא בעיצוב הכולל? כיצד השם הופך לחלק מהחפץ עצמו?' },
+  { id:7, emoji:'🧩', cat:'product', catLabel:'עיצוב מוצר', name:'ריהוט בלתי גמור', designer:'סטודיו אלכימיה', year:'1981', bg:'#FFE234', fg:'#111',
+    desc:'רהיטים צבעוניים שמאתגרים את מושג ה"מוצר גמור". הלקוח יכול להוסיף חלקים באמצעות מגנטים לפי טעמו — רעיון מהפכני שמשבר את ההיררכיה בין מעצב לצרכן.',
+    tags:['שיתוף משתמש','מוצר פתוח','מגנטים','אינדיבידואליזם'],
+    q:'כיצד "ריהוט בלתי גמור" מבטא ביקורת על ייצור המוני ועל מעמד הצרכן?' },
+  { id:8, emoji:'📚', cat:'product', catLabel:'עיצוב מוצר', name:'מחיצת "קרלטון"', designer:'אטורה סוטסאס (ממפיס)', year:'1981', bg:'#1A3FFF', fg:'white',
+    desc:'ספרייה/מחיצה בזוויות חריפות וצבעים צועקים עם למינט דקורטיבי גיאומטרי. כמעט לא שימושית כספרייה — ולכך בדיוק מטרתה: לשים מראה רגשי מעל פונקציה.',
+    tags:['ממפיס','למינט','גיאומטרי','אנטי-פונקציונלי'],
+    q:'אם קרלטון אינה ספרייה שימושית, מדוע היא נחשבת לאייקון עיצוב? מה היא "עושה"?' },
+  { id:9, emoji:'🍦', cat:'product', catLabel:'עיצוב מוצר', name:'שולחן המזרקה', designer:'דן פרידמן', year:'1988', bg:'#00B8C8', fg:'#111',
+    desc:'שולחן פלסטיק הנראה כמו גלידה נמסה עם טיפה נושרת. פרידמן לקח דימוי מעולם הפופ ויצר ממנו רהיט — ביטול הגבול בין פונקציה לקישוט ובין "גבוה" ל"נמוך" בתרבות.',
+    tags:['פופ-ארט','קישוט','גלידה','פלסטיק'],
+    q:'מה משמעות שימוש בדימוי גלידה נמסה לתיאור רהיט? אילו גבולות תרבותיים הדבר שובר?' },
+  { id:10, emoji:'📻', cat:'product', catLabel:'עיצוב מוצר', name:'מערכת שמע מבטון', designer:'רון ארד', year:'1983', bg:'#111', fg:'white',
+    desc:'רדיו מבטון חשוף ושבור. ארד לקח חומר של שדות קרב ואתרי בנייה ועשה ממנו מכשיר אלקטרוני — תרגיל רדיקלי שמבקר את הצריכה הנקייה והסדרתית.',
+    tags:['רדיקלי','בטון','ביקורת צרכנות','חומרים גסים'],
+    q:'מדוע שימוש בבטון שבור לבניית מכשיר אלקטרוני מהווה "ביקורת" על תרבות הצריכה?' },
+  { id:11, emoji:'☕', cat:'product', catLabel:'עיצוב מוצר', name:'קומקום אלסי (הציפור)', designer:'מייקל גרייבס', year:'1985', bg:'#FF2D00', fg:'white',
+    desc:'קומקום עם משרוקית בצורת ציפור אדומה שמצפצפת כשהמים רותחים. גרייבס הפך מוצר פונקציונלי טהור לחפץ משחקי ומשמח — שהפך ללהיט עיצובי עולמי.',
+    tags:['הומור','ציפור','Alessi','מוצר פופולרי'],
+    q:'כיצד הוספת "ציפור שרה" לקומקום משנה את מערכת היחסים בין הצרכן לחפץ?' },
+  { id:12, emoji:'💻', cat:'graphic', catLabel:'עיצוב גרפי', name:'מקינטוש 128K', designer:'הרטמוט אסלינגר (אפל)', year:'1984', bg:'#e8e4db', fg:'#111',
+    desc:'המחשב האישי הראשון עם ממשק גרפי — "שולחן עבודה" ועכבר. עיצובו הלבן הידידותי סימל מהפכה: לראשונה מחשב פנה לאדם הרגיל. שינה את הדרך שבה אנשים צורכים טכנולוגיה.',
+    tags:['GUI','מהפכה דיגיטלית','אפל','ממשק ידידותי'],
+    q:'כיצד עיצוב ה-Mac שינה לא רק מחשבים — אלא את הדרך שבה חברות עיצוב חושבות על ממשק אדם-מכונה?' },
+  { id:13, emoji:'🖨️', cat:'graphic', catLabel:'עיצוב גרפי', name:'כרזת SCI-Arc', designer:'אפריל גריימן', year:'1986', bg:'#FF45CC', fg:'#111',
+    desc:'כרזה שנוצרה כולה במחשב — מחלוצי תחום זה. גריימן שילבה שכבות, טקסטורות, פונטים "מפוקסלים" ותמונות ממוזגות. ביטוי מוקדם של "הגל החדש" — עיצוב שמאמץ את "פגמי" הדיגיטל.',
+    tags:['הגל החדש','דיגיטל','פיקסלים','שכבות','גריימן'],
+    q:'מה ההבדל בין "קריאות" ל"תקשורת"? מדוע עיצוב לא-קריא יכול לפעמים לתקשר חזק יותר?' },
+  { id:14, emoji:'❤️', cat:'graphic', catLabel:'עיצוב גרפי', name:'לוגו I ♥ NY', designer:'מילטון גלזר', year:'1976', bg:'#00C060', fg:'#111',
+    desc:'אחד הסמלים הגרפיים המוכרים בעולם — עוצב ב-1976 לשקם את תדמיתה של ניו-יורק. גלזר הוכיח שעיצוב תמציתי ורגשי, המחליף מילה ב"לב", יכול לחלחל לתרבות כולה.',
+    tags:['אייקוניות','פשטות','לוגו','עיצוב עירוני','גלזר'],
+    q:'כיצד עיצוב שמחליף מילה ב"לב" מצליח להיות גם תמציתי גם רגשי? מה הכוח של הפשטות?' }
+];
+
+const quizData = [
+  { q:'מהו המוטו המפורסם של העיצוב המודרני?', opts:['Less is Bore','Less is More','Form follows Fun','Shape is Meaning'], c:1, e:'"Less is More" — "פחות זה יותר". ונטורי השיב לו ב"Less is Bore".' },
+  { q:'מה הוא פונקציונליזם?', opts:['עיצוב לפי אסתטיקה','עיצוב לפי מסורת','צורה נקבעת לפי תפקיד','עיצוב מבוסס על צבע'], c:2, e:'פונקציונליזם: הצורה נקבעת קודם כל לפי הפונקציה של החפץ — עקרון יסוד של המודרניזם.' },
+  { q:'מי עיצב את מחיצת "קרלטון"?', opts:['פרנק גרי','רון ארד','אטורה סוטסאס','מייקל גרייבס'], c:2, e:'אטורה סוטסאס עיצב את קרלטון (1981) עבור קבוצת ממפיס. היא מאתגרת שימושיות ומדגישה את החזות.' },
+  { q:'מהי "התיישנות מתוכננת"?', opts:['מוצר שמשתבח עם הזמן','מוצר שנועד לפוג תוקף','עיצוב מבוסס חומרים טבעיים','אסטרטגיה לשיפור מוצרים'], c:1, e:'Planned Obsolescence — מוצרים תוכננו עם אורך חיים מוגבל כדי לדחוף לקנייה חוזרת. המעצבים הרדיקליים מחו נגד זה.' },
+  { q:'מה ייחודי במרכז פומפידו?', opts:['בנוי כולו מזכוכית','מערכות הבניין חשופות וצבועות מחוץ','בנוי בצורת פירמידה','שוכן מתחת לאדמה'], c:1, e:'פומפידו "הפך את הקרביים" — הצינורות, החשמל, המיזוג חשופים על החזית וצבועים בצבעים עזים.' },
+  { q:'מה היה ייחודי ב-Mac 128K?', opts:['היה בצבע','המהיר בעולם','ממשק גרפי ועכבר לראשונה','הראשון לבית'], c:2, e:'ה-Mac הציג GUI — שולחן עבודה ועכבר — לראשונה למשתמש הביתי. שינה את תפיסת המחשב.' },
+  { q:'מה הביקורת על "האדם הגנרי"?', opts:['עיצב מוצרים יקרים','התעלם מצרכים ייחודיים של הפרט','השתמש בצבעים מוגזמים','לא התחשב בסביבה'], c:1, e:'המודרניזם עיצב ל"ממוצע" ושכח שכל אדם הוא פרט עם צרכים רגשיים וגופניים שונים.' },
+  { q:'מי עטף את ביתו בפח גלי ורשתות?', opts:['רוברט ונטורי','מייקל גרייבס','פרנק גרי','רנצו פיאנו'], c:2, e:'פרנק גרי עטף את ביתו בסנטה מוניקה (1978) בחומרים תעשייתיים — דה-קונסטרוקטיביזם מובהק.' },
+  { q:"מה הוא סגנון הגראנג' בעיצוב גרפי?", opts:['עיצוב נקי ומסודר','פונטים שבורים, שכבות ואלמנטים מעוותים','עיצוב בשחור-לבן בלבד','אמנות קלאסית'], c:1, e:"גראנג' נוצר עם הכניסה הדיגיטלית — מעצבים כגריימן וקרסון השתמשו בפונטים שבורים ושכבות מרובות." },
+  { q:'איזה ביטוי טבע ונטורי נגד המודרניזם?', opts:['More is Less','Less is Bore','More is More','Form is Fun'], c:1, e:'"Less is Bore" — "פחות זה משעמם" — המשפט שרוברט ונטורי טבע ופתח את הדרך לפוסט-מודרניזם.' }
+];
+
+// ─── SECTION UNLOCK TRACKING ───
+const visitedSections = new Set();
+
+function showSection(name, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  if (el) {
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(name)) b.classList.add('active');
+    });
+  }
+  // track visited
+  if (['theory','works','compare'].includes(name)) {
+    visitedSections.add(name);
+    if (visitedSections.has('theory') && visitedSections.has('works') && visitedSections.has('compare')) {
+      const btn = document.getElementById('quizNavBtn');
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      btn.textContent = '';
+      btn.innerHTML = '<span class="nav-indicator"></span> בחינה ✅';
+    }
+  }
+}
+
+function tryOpenQuiz(el) {
+  if (visitedSections.has('theory') && visitedSections.has('works') && visitedSections.has('compare')) {
+    showSection('quiz', el);
+  } else {
+    const missing = [];
+    if (!visitedSections.has('theory')) missing.push('תיאוריה');
+    if (!visitedSections.has('works')) missing.push('יצירות');
+    if (!visitedSections.has('compare')) missing.push('השוואה');
+    alert(`🔒 כדי לפתוח את הבחינה, יש לעבור תחילה על: ${missing.join(', ')}`);
+  }
+}
+
+// ─── WORKS ───
+function renderWorks(filter) {
+  const grid = document.getElementById('worksGrid');
+  grid.innerHTML = '';
+  (filter === 'all' ? works : works.filter(w => w.cat === filter)).forEach(w => {
+    const el = document.createElement('div');
+    el.className = 'work-card';
+    el.onclick = () => openModal(w.id);
+    el.innerHTML = `
+      <div class="work-thumb" style="background:${w.bg};color:${w.fg}">
+        <span>${w.emoji}</span>
+        <div class="work-thumb-label">${w.catLabel}</div>
+      </div>
+      <div class="work-info">
+        <div class="work-year">${w.year}</div>
+        <div class="work-name">${w.name}</div>
+        <div class="work-designer">${w.designer}</div>
+      </div>
+      <div class="work-arrow">←</div>`;
+    grid.appendChild(el);
+  });
+}
+
+function filterWorks(f, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderWorks(f);
+}
+
+renderWorks('all');
+
+// ─── MODAL ───
+function openModal(id) {
+  const w = works.find(x => x.id === id);
+  document.getElementById('mBanner').style.background = w.bg;
+  document.getElementById('mBanner').style.color = w.fg;
+  document.getElementById('mEmoji').textContent = w.emoji;
+  document.getElementById('mCatBadge').textContent = w.catLabel;
+  document.getElementById('mCatBadge').style.borderColor = w.fg;
+  document.getElementById('mCatBadge').style.color = w.fg;
+  document.getElementById('mDesigner').textContent = w.designer;
+  document.getElementById('mYear').textContent = w.year;
+  document.getElementById('mDesc').textContent = w.desc;
+  document.getElementById('mQ').textContent = w.q;
+  document.getElementById('mTags').innerHTML = w.tags.map(t =>
+    `<span class="modal-tag">${t}</span>`).join('');
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function overlayClose(e) {
+  if (e.target === document.getElementById('overlay')) closeModal();
+}
+
+// ─── OPEN QUESTIONS DATA ───
+const openQuestions = [
+  {
+    id: 'oq1',
+    q: 'תאר/י את מחיצת "קרלטון" של סוטסאס. כיצד היא מבטאת את עקרונות הפוסט-מודרניזם? התייחס/י לצורה, צבע ושימושיות.',
+    rubric: `You are grading a Hebrew high school art exam question (10 points). The question asks students to describe the Carlton bookcase by Sottsass and explain how it expresses post-modernism principles (form, color, usability).
+A strong answer (9-10) should mention: colorful asymmetric geometric shapes, plastic laminate, Memphis group, challenge to functionalism, decorative over functional.
+A good answer (6-8) covers 2-3 of those points clearly.
+A partial answer (3-5) mentions Carlton and post-modernism but lacks depth.
+A weak answer (0-2) is vague or off-topic.
+Respond in Hebrew ONLY with this exact JSON: {"score": NUMBER, "title": "SHORT_LABEL", "feedback": "2-3 sentences of constructive feedback in Hebrew", "strengths": "what was good", "improve": "what to add"}`
+  },
+  {
+    id: 'oq2',
+    q: 'השווה/י בין בית ואנה ונטורי (1964) לבין מרכז פומפידו (1971-77). מה משותף לשניהם כביקורת על האדריכלות המודרנית?',
+    rubric: `You are grading a Hebrew high school art exam question (10 points). The question asks students to compare Vanna Venturi House and Centre Pompidou as critiques of modernism.
+A strong answer (9-10) mentions: both break functionalist rules, Venturi uses contradictions/non-functional stairs, Pompidou exposes internal systems outside, both challenge "form follows function", both use irony/provocation.
+A good answer (6-8) identifies the comparison and at least 2 shared critique elements.
+A partial answer (3-5) describes one building well but lacks comparison.
+A weak answer (0-5) is vague.
+Respond in Hebrew ONLY with this exact JSON: {"score": NUMBER, "title": "SHORT_LABEL", "feedback": "2-3 sentences in Hebrew", "strengths": "what was good", "improve": "what to add"}`
+  },
+  {
+    id: 'oq3',
+    q: 'הסבר/י את מושג "התיישנות מתוכננת" (Planned Obsolescence). כיצד מושג זה הוביל למחאה של מעצבים רדיקליים? תן/י דוגמה ליצירה שמבטאת את המחאה הזו.',
+    rubric: `You are grading a Hebrew high school art exam question (10 points). The question asks about Planned Obsolescence and how it sparked radical design protest, with an example.
+A strong answer (9-10) defines the concept clearly, explains the consumer society critique, mentions a specific work (e.g. Ron Arad concrete stereo, Alchimia furniture) with explanation.
+A good answer (6-8) defines the concept and gives a relevant example without deep connection.
+A partial answer (3-5) defines the concept but no example or weak example.
+A weak answer (0-5) is vague or incorrect.
+Respond in Hebrew ONLY with this exact JSON: {"score": NUMBER, "title": "SHORT_LABEL", "feedback": "2-3 sentences in Hebrew", "strengths": "what was good", "improve": "what to add"}`
+  },
+  {
+    id: 'oq4',
+    q: 'מדוע בחר סוטסאס בצבע אדום עז למכונת הכתיבה "ולנטיין"? מה המסר שהוא מנסה להעביר דרך בחירה זו? כיצד היא מאתגרת את עקרון "פחות זה יותר"?',
+    rubric: `You are grading a Hebrew high school art exam question (10 points). The question asks why Sottsass chose red for the Valentine typewriter and how it challenges "Less is More."
+A strong answer (9-10) mentions: Sottsass's quote about red being provocative/communist flag/surgeon color, bringing joy to office, emotional design over neutral design, direct challenge to modernist neutrality and functionalism.
+A good answer (6-8) addresses the emotional/provocative intent and the modernism challenge.
+A partial answer (3-5) mentions color choice but lacks depth on the ideological challenge.
+A weak answer (0-5) is vague.
+Respond in Hebrew ONLY with this exact JSON: {"score": NUMBER, "title": "SHORT_LABEL", "feedback": "2-3 sentences in Hebrew", "strengths": "what was good", "improve": "what to add"}`
+  },
+  {
+    id: 'oq5',
+    q: 'בחר/י יצירה אחת מהיחידה שלדעתך מבטאת ביותר את רוח הפוסט-מודרניזם. נמק/י את בחירתך תוך התייחסות לפחות לשלושה עקרונות פוסט-מודרניים.',
+    rubric: `You are grading a Hebrew high school art exam question (10 points). The student chooses any work from the unit and justifies it using at least 3 post-modern principles.
+A strong answer (9-10): clearly names a work, identifies 3+ post-modern principles (humor, irony, anti-functionalism, color, individual over generic, deconstruction, challenging modernism), connects them specifically to the work.
+A good answer (6-8): names a work and covers 2-3 principles with reasonable explanation.
+A partial answer (3-5): names a work but principles are vague or only 1-2 mentioned.
+A weak answer (0-5): no clear work or principles identified.
+Respond in Hebrew ONLY with this exact JSON: {"score": NUMBER, "title": "SHORT_LABEL", "feedback": "2-3 sentences in Hebrew", "strengths": "what was good", "improve": "what to add"}`
+  }
+];
+
+// ─── QUIZ STATE ───
+let qIdx = 0;
+let closedScore = 0;
+let openScores = {};
+let quizAnswers = [];
+const TOTAL_CLOSED = 10;
+const TOTAL_OPEN = 5;
+const letters = ['א','ב','ג','ד'];
+
+// Combined question list: 10 closed then 5 open
+function allQuestions() {
+  return [
+    ...quizData.map((d,i) => ({type:'closed', idx:i, data:d})),
+    ...openQuestions.map((d,i) => ({type:'open', idx:i, data:d}))
+  ];
+}
+
+// ─── STUDENT NAME ───
+let studentName = '';
+
+function startQuiz() {
+  const first = document.getElementById('studentFirst').value.trim();
+  const last  = document.getElementById('studentLast').value.trim();
+  if (!first || !last) {
+    document.getElementById('nameError').style.display = 'block';
+    return;
+  }
+  document.getElementById('nameError').style.display = 'none';
+  studentName = `${first} ${last}`;
+  qIdx = 0; closedScore = 0; openScores = {};
+  quizAnswers = [];
+  document.getElementById('quizCover').style.display = 'none';
+  document.getElementById('quizArea').style.display = 'block';
+  document.getElementById('resultCard').classList.remove('show');
+  renderQ(0);
+}
+
+function renderQ(idx) {
+  const all = allQuestions();
+  if (idx >= all.length) { showResult(); return; }
+  updateProg(idx);
+  const q = all[idx];
+  if (q.type === 'closed') renderClosed(q.data, idx);
+  else renderOpen(q.data, idx);
+}
+
+// ── CLOSED QUESTION ──
+function renderClosed(d, idx) {
+  const c = document.getElementById('qContainer');
+  c.innerHTML = '';
+  const card = document.createElement('div');
+  card.className = 'q-card show';
+  card.innerHTML = `
+    <div class="q-head">
+      <span class="q-head-num">שאלה ${idx+1} / ${allQuestions().length}</span>
+      <span class="q-head-pts">5 נקודות</span>
+    </div>
+    <div class="q-body">
+      <div class="q-text">${d.q}</div>
+      <div class="q-options">
+        ${d.opts.map((o,i) => `
+          <button class="opt" onclick="answerClosed(${i},${idx},this)">
+            <span class="opt-letter">${letters[i]}</span>
+            <span>${o}</span>
+          </button>`).join('')}
+      </div>
+      <div class="q-feedback" id="fb${idx}"></div>
+    </div>
+    <button class="q-next" id="nxt${idx}" onclick="renderQ(${idx+1})">
+      ${idx === allQuestions().length-1 ? 'סיים ✓' : 'הבא →'}
+    </button>`;
+  c.appendChild(card);
+}
+
+function answerClosed(chosen, idx, btn) {
+  const d = allQuestions()[idx].data;
+  btn.closest('.q-options').querySelectorAll('.opt').forEach(b => b.disabled = true);
+  const fb = document.getElementById(`fb${idx}`);
+  const nxt = document.getElementById(`nxt${idx}`);
+  if (chosen === d.c) {
+    closedScore++;
+    btn.classList.add('correct');
+    fb.textContent = '✅ נכון! ' + d.e;
+    fb.classList.add('show','ok');
+    quizAnswers.push({type:'closed', q:d.q, answer:d.opts[chosen], correct:true, pts:5});
+  } else {
+    btn.classList.add('wrong');
+    btn.closest('.q-options').querySelectorAll('.opt')[d.c].classList.add('correct');
+    fb.textContent = '❌ לא בדיוק. ' + d.e;
+    fb.classList.add('show','bad');
+    quizAnswers.push({type:'closed', q:d.q, answer:d.opts[chosen], correctAnswer:d.opts[d.c], correct:false, pts:0});
+  }
+  nxt.classList.add('show');
+  updateProg(idx);
+}
+
+// ── OPEN QUESTION ──
+function renderOpen(d, globalIdx) {
+  const c = document.getElementById('qContainer');
+  c.innerHTML = '';
+  const isLast = globalIdx === allQuestions().length - 1;
+  const card = document.createElement('div');
+  card.className = 'q-card show';
+  card.innerHTML = `
+    <div class="q-head">
+      <span class="q-head-num">שאלה ${globalIdx+1} / ${allQuestions().length}</span>
+      <span class="q-head-pts" style="color:var(--pink)">✨ AI · 10 נקודות</span>
+    </div>
+    <div class="q-body">
+      <div style="margin-bottom:8px"><span class="oq-badge">✨ שאלה פתוחה — בדיקת AI</span></div>
+      <div class="q-text">${d.q}</div>
+      <textarea class="oq-textarea" id="ta_${d.id}" placeholder="כתוב/י את תשובתך כאן... (לפחות 3-4 משפטים)"></textarea>
+      <button class="oq-submit" id="sub_${d.id}" onclick="submitOpen('${d.id}', ${globalIdx})">
+        <span>שלח לבדיקת AI</span> <span>→</span>
+      </button>
+    </div>
+    <div class="ai-loading" id="load_${d.id}">
+      <div class="ai-spinner"></div>
+      <span>Claude בודק את תשובתך...</span>
+    </div>
+    <div class="ai-result" id="aires_${d.id}">
+      <div class="ai-score-bar">
+        <div>
+          <div class="ai-score-num" id="aisc_${d.id}">—</div>
+          <div class="ai-score-label">מתוך 10 נקודות</div>
+        </div>
+        <div class="ai-score-dots" id="aidots_${d.id}"></div>
+      </div>
+      <div class="ai-feedback-text" id="aifb_${d.id}"></div>
+    </div>
+    <button class="q-next" id="nxt_open_${globalIdx}" style="display:none" onclick="renderQ(${globalIdx+1})">
+      ${isLast ? 'סיים ✓' : 'הבא →'}
+    </button>`;
+  c.appendChild(card);
+}
+
+async function submitOpen(oqId, globalIdx) {
+  const ta = document.getElementById(`ta_${oqId}`);
+  const answer = ta.value.trim();
+  if (answer.length < 20) {
+    ta.style.borderColor = 'var(--red)';
+    ta.placeholder = 'אנא כתוב/י תשובה מפורטת יותר...';
+    return;
+  }
+  ta.disabled = true;
+  document.getElementById(`sub_${oqId}`).disabled = true;
+  document.getElementById(`load_${oqId}`).classList.add('show');
+
+  const oq = openQuestions.find(q => q.id === oqId);
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: oq.rubric,
+        messages: [{ role: 'user', content: `Student answer: ${answer}` }]
+      })
+    });
+    const data = await resp.json();
+    const raw = data.content?.[0]?.text || '';
+
+    let parsed;
+    try {
+      const cleaned = raw.replace(/```json|```/g,'').trim();
+      parsed = JSON.parse(cleaned);
+    } catch {
+      parsed = { score: 5, title: 'בדיקה הושלמה', feedback: raw.slice(0,200), strengths: '', improve: '' };
+    }
+
+    const score = Math.max(0, Math.min(10, parseInt(parsed.score) || 0));
+    openScores[oqId] = score;
+    quizAnswers.push({type:'open', q:oq.q, answer:answer, score:score, feedback:parsed.feedback||'', strengths:parsed.strengths||'', improve:parsed.improve||''});
+
+    // Show score dots
+    const dots = document.getElementById(`aidots_${oqId}`);
+    for (let i = 0; i < 10; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'ai-score-dot' + (i < score ? ' filled' : '');
+      dots.appendChild(dot);
+    }
+
+    // Color score number
+    const scoreEl = document.getElementById(`aisc_${oqId}`);
+    scoreEl.textContent = score;
+    scoreEl.style.color = score >= 8 ? 'var(--green)' : score >= 5 ? 'var(--blue)' : 'var(--red)';
+
+    // Feedback
+    const fbEl = document.getElementById(`aifb_${oqId}`);
+    fbEl.innerHTML = `
+      <strong>משוב כללי</strong>${parsed.feedback || ''}
+      ${parsed.strengths ? `<br><br><strong style="color:var(--green)">✅ חוזקות</strong>${parsed.strengths}` : ''}
+      ${parsed.improve ? `<br><br><strong style="color:var(--blue)">💡 לשיפור</strong>${parsed.improve}` : ''}
+    `;
+
+    document.getElementById(`load_${oqId}`).classList.remove('show');
+    document.getElementById(`aires_${oqId}`).classList.add('show');
+    document.getElementById(`nxt_open_${globalIdx}`).style.display = 'block';
+    updateProg(globalIdx);
+
+  } catch(err) {
+    document.getElementById(`load_${oqId}`).classList.remove('show');
+
+    // Save answer for manual review
+    const ta2 = document.getElementById(`ta_${oqId}`);
+    const savedAnswer = ta2 ? ta2.value.trim() : '';
+    openScores[oqId] = 'manual';
+    quizAnswers.push({
+      type: 'open',
+      q: oq.q,
+      answer: savedAnswer,
+      score: 'manual',
+      feedback: 'התשובה תיבדק ידנית על ידי המורה',
+      strengths: '',
+      improve: ''
+    });
+
+    // Show error state with manual review notice
+    document.getElementById(`aifb_${oqId}`).innerHTML = `
+      <div style="padding:16px 20px; border-top:2px solid var(--black); background:#fff8e1;">
+        <strong style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gray);">⚠ שגיאת AI</strong>
+        <p style="margin:8px 0 4px; font-size:14px; font-weight:700;">לא הצלחנו לקבל בדיקה אוטומטית.</p>
+        <p style="font-size:13px; line-height:1.6; color:#555;">✅ תשובתך <strong>נשמרה</strong> ותיבדק ידנית על ידי המורה. תוכל/י להמשיך לשאלה הבאה.</p>
+      </div>`;
+    document.getElementById(`aires_${oqId}`).classList.add('show');
+
+    // Show next button anyway
+    const nxtBtn = document.getElementById(`nxt_open_${globalIdx}`);
+    if (nxtBtn) {
+      nxtBtn.style.display = 'block';
+      nxtBtn.style.background = 'var(--gray)';
+      nxtBtn.textContent = nxtBtn.textContent.includes('סיים') ? 'סיים ✓' : 'המשך ←';
+    }
+    updateProg(globalIdx);
+  }
+}
+
+function updateProg(idx) {
+  const total = allQuestions().length;
+  const pct = Math.round((idx / total) * 100);
+  document.getElementById('qProgressFill').style.width = pct+'%';
+  document.getElementById('qProgressText').textContent = `שאלה ${idx+1}/${total}`;
+  const closedPts = closedScore * 5;
+  const openPts = Object.values(openScores).filter(v=>v!=='manual').reduce((a,b)=>a+b,0);
+  const manualCount = Object.values(openScores).filter(v=>v==='manual').length;
+  document.getElementById('qScoreText').textContent = `${closedPts + openPts} נקודות`;
+}
+
+function showResult() {
+  document.getElementById('qContainer').innerHTML = '';
+  document.getElementById('qProgressFill').style.width = '100%';
+  document.getElementById('qProgressText').textContent = 'הסתיים!';
+
+  const closedPts = closedScore * 5;
+  const openPts = Object.values(openScores).filter(v=>v!=='manual').reduce((a,b)=>a+b,0);
+  const manualCount = Object.values(openScores).filter(v=>v==='manual').length;
+  const total = closedPts + openPts;
+  const maxTotal = 100;
+  const pct = Math.round((total / maxTotal) * 100);
+
+  document.getElementById('qScoreText').textContent = `${total} / ${maxTotal}`;
+  document.getElementById('rPct').innerHTML = `${total}<span style="font-size:28px">/${maxTotal}</span>`;
+
+  const levels = [
+    [85,'🏆 מעצב/ת מהפכה','שליטה מלאה — מודרניזם, פוסט-מודרניזם, וכל 14 היצירות ברשותך.'],
+    [65,'🎨 על הדרך הנכונה','הבנה טובה. חזרי על היצירות שפספסת ועיינ/י שוב במושגים.'],
+    [45,'📚 עוד קצת לימוד','חזר/י לחלקי התיאוריה ועבר/י שוב על גלריית היצירות.'],
+    [0,'💡 חזרה על החומר','מומלץ לעבור שוב על כל היחידה מהתחלה — מתיאוריה ועד יצירות.']
+  ];
+  const [,label,msg] = levels.find(([t]) => total >= t);
+
+  document.getElementById('rLabel').textContent = label;
+  document.getElementById('rSub').innerHTML = `
+    שאלות סגורות: ${closedPts}/50 &nbsp;|&nbsp; שאלות פתוחות: ${openPts}/50
+    ${manualCount > 0 ? `<br><span style="color:var(--red);font-weight:700;">⚠ ${manualCount} שאלה/ות תיבדקנה ידנית על ידי המורה</span>` : ''}
+  `;
+  document.getElementById('rMsg').textContent = msg;
+  document.getElementById('resultCard').classList.add('show');
+}
+
+function buildResultHTML() {
+  const closedPts = closedScore * 5;
+  const openPts = Object.values(openScores).filter(v=>v!=='manual').reduce((a,b)=>a+b,0);
+  const manualCount = Object.values(openScores).filter(v=>v==='manual').length;
+  const total = closedPts + openPts;
+  const now = new Date().toLocaleDateString('he-IL');
+
+  let html = `<html dir="rtl"><head><meta charset="UTF-8">
+  <style>
+    body{font-family:Arial,sans-serif;direction:rtl;padding:32px;color:#111;font-size:14px;line-height:1.7}
+    h1{font-size:22px;border-bottom:3px solid #111;padding-bottom:10px;margin-bottom:6px}
+    h2{font-size:16px;margin:24px 0 8px;background:#f0f0f0;padding:8px 12px}
+    .score{font-size:36px;font-weight:900;color:#1A3FFF}
+    .meta{color:#888;font-size:12px;margin-bottom:24px}
+    .q-block{border:1px solid #ddd;margin-bottom:16px;padding:14px 16px}
+    .q-text{font-weight:700;margin-bottom:8px}
+    .correct{color:green} .wrong{color:red}
+    .feedback{background:#fffbe6;border-right:3px solid #FFE234;padding:8px 12px;margin-top:8px;font-size:13px}
+    .open-ans{background:#f9f9f9;border:1px solid #ddd;padding:10px 12px;margin:8px 0;font-size:13px;white-space:pre-wrap}
+  </style></head><body>
+  <h1>בחינת סיכום — מעיצוב משרת לעיצוב מורד</h1>
+  <div class="meta">תלמיד/ה: <strong>${studentName}</strong> &nbsp;|&nbsp; תאריך: ${now}</div>
+  <div class="score">${total} / 100</div>
+  <div class="meta">שאלות סגורות: ${closedPts}/50 &nbsp;|&nbsp; שאלות פתוחות: ${openPts}/50</div>
+  <h2>שאלות סגורות</h2>`;
+
+  quizAnswers.filter(a=>a.type==='closed').forEach((a,i) => {
+    html += `<div class="q-block">
+      <div class="q-text">${i+1}. ${a.q}</div>
+      <div class="${a.correct?'correct':'wrong'}">${a.correct?'✅':'❌'} תשובתך: ${a.answer} &nbsp;(${a.pts}/5)</div>
+      ${!a.correct ? `<div style="color:green;font-size:13px">✔ תשובה נכונה: ${a.correctAnswer}</div>`:''}
+    </div>`;
+  });
+
+  html += `<h2>שאלות פתוחות (בדיקת AI)</h2>`;
+  quizAnswers.filter(a=>a.type==='open').forEach((a,i) => {
+    const isManual = a.score === 'manual';
+    html += `<div class="q-block">
+      <div class="q-text">${i+1}. ${a.q}</div>
+      <div class="open-ans">${a.answer}</div>
+      <strong style="color:${isManual?'#cc7700':'#111'}">ציון: ${isManual ? '⏳ ממתין לבדיקה ידנית' : `${a.score}/10`}</strong>
+      <div class="feedback">${isManual
+        ? '<strong>⚠ שאלה זו תיבדק ידנית על ידי המורה</strong>'
+        : `<strong>משוב:</strong> ${a.feedback}<br>
+          ${a.strengths?`<strong>✅ חוזקות:</strong> ${a.strengths}<br>`:''}
+          ${a.improve?`<strong>💡 לשיפור:</strong> ${a.improve}`:''}`}
+      </div>
+    </div>`;
+  });
+
+  html += `</body></html>`;
+  return html;
+}
+
+function downloadPDF() {
+  const html = buildResultHTML();
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const w = window.open(url,'_blank');
+  if (w) {
+    w.onload = () => { w.print(); };
+  }
+  // Also trigger direct download as .html backup
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `בחינה_${studentName.replace(' ','_')}.html`;
+  a.click();
+}
+
+function sendToTeacher() {
+  const closedPts = closedScore * 5;
+  const openPts = Object.values(openScores).filter(v=>v!=='manual').reduce((a,b)=>a+b,0);
+  const manualCount = Object.values(openScores).filter(v=>v==='manual').length;
+  const total = closedPts + openPts;
+  const now = new Date().toLocaleDateString('he-IL');
+
+  let body = `בחינת סיכום — מעיצוב משרת לעיצוב מורד\n`;
+  body += `תלמיד/ה: ${studentName} | תאריך: ${now}\n`;
+  body += `ציון סופי: ${total}/100 (סגורות: ${closedPts}/50 | פתוחות: ${openPts}/50)\n\n`;
+  body += `=== שאלות סגורות ===\n`;
+  quizAnswers.filter(a=>a.type==='closed').forEach((a,i) => {
+    body += `\n${i+1}. ${a.q}\n   תשובה: ${a.answer} ${a.correct?'✅':'❌'} (${a.pts}/5)`;
+    if (!a.correct) body += `\n   תשובה נכונה: ${a.correctAnswer}`;
+  });
+  body += `\n\n=== שאלות פתוחות ===\n`;
+  quizAnswers.filter(a=>a.type==='open').forEach((a,i) => {
+    const isManual = a.score === 'manual';
+    body += `\n${i+1}. ${a.q}\nתשובה: ${a.answer}\nציון: ${isManual ? '⏳ ממתין לבדיקה ידנית' : `${a.score}/10`}\n${isManual ? '⚠ נדרשת בדיקה ידנית' : `משוב: ${a.feedback}`}\n`;
+  });
+
+  const subject = `בחינה — ${studentName} — ${now}`;
+  const statusEl = document.getElementById('sendStatus');
+  statusEl.style.display = 'block';
+  statusEl.style.background = '#f0f0f0';
+  statusEl.innerHTML = '⏳ שולח למורה...';
+
+  // EmailJS — replace these 3 values after setting up at emailjs.com
+  const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    to_email:     'crivki770@gmail.com',
+    student_name: studentName,
+    date:         now,
+    score:        `${total}/100`,
+    score_closed: `${closedPts}/50`,
+    score_open:   `${openPts}/50`,
+    answers:      body,
+  }, EMAILJS_PUBLIC_KEY)
+  .then(() => {
+    statusEl.style.background = '#d4f7e0';
+    statusEl.innerHTML = '✅ התשובות נשלחו למורה בהצלחה!';
+  })
+  .catch(err => {
+    statusEl.style.background = '#ffe5e5';
+    statusEl.innerHTML = `❌ שגיאה בשליחה (${err.text || err}). אנא הורד את הקובץ ושלח ידנית.`;
+  });
+}
+
+</script>
+</body>
+</html>
